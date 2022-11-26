@@ -1,4 +1,5 @@
 var grid = []
+var zaehler = 0
 
 var player = {
     CROSS : 1, CIRCLE : 2, FREE : 0
@@ -27,10 +28,11 @@ canvas.addEventListener("mousedown", function (e) {
         var x = Math.floor((e.x - canvas.getBoundingClientRect().x) / size)
         var y = Math.floor((e.y - canvas.getBoundingClientRect().y) / size)
 
+            if (grid[x + "," + y] === player.FREE) {
+                grid[x + "," + y] = currentPlayer
+                zaehler++
+            }
 
-        if(grid[x + "," + y] === player.FREE) {
-            grid[x + "," + y] = currentPlayer
-        }
 
         if(checkWin()) {
             gameWon = true
@@ -42,7 +44,11 @@ canvas.addEventListener("mousedown", function (e) {
             if(currentPlayer === player.CIRCLE) {
                 p.innerText = "Kreis hat gewonnen"
             }
+
             document.body.append(p)
+
+        } else if (zaehler >= 9) {
+            document.body.append(document.createElement("p").innerText = "Unentschieden")
         }
 
         if(currentPlayer === player.CIRCLE) {
